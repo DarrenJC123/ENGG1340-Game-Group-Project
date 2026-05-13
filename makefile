@@ -1,27 +1,27 @@
-# Main Makefile for Year 1 Engineering Experience
-
-# Compiler and flags
 CXX = g++
-CXXFLAGS = -Wall -std=c++11
-LDFLAGS = -lncursesw
+CXXFLAGS = -std=c++11 -Wall
+LIBS = -lncursesw
 
-# Main source files
-MAIN_SOURCES = main_menu.cpp
-MAIN_TARGET = year1_experience
+TARGET = 1330
 
-# Default rule
-all: $(MAIN_TARGET)
+all: $(TARGET)
 
-# Rule to build the main executable
-$(MAIN_TARGET): $(MAIN_SOURCES)
-	$(CXX) $(CXXFLAGS) $(MAIN_SOURCES) -o $(MAIN_TARGET) $(LDFLAGS)
+$(TARGET): main_1330.o 1330.o text_animator.o
+	$(CXX) $(CXXFLAGS) -o $(TARGET) main_1330.o 1330.o text_animator.o $(LIBS)
 
-# Clean up
+main_1330.o: main_1330.cpp 1330.h text_animator.h
+	$(CXX) $(CXXFLAGS) -c main_1330.cpp
+
+1330.o: 1330.cpp 1330.h
+	$(CXX) $(CXXFLAGS) -c 1330.cpp
+
+text_animator.o: text_animator.cpp text_animator.h
+	$(CXX) $(CXXFLAGS) -c text_animator.cpp
+
 clean:
-	rm -f $(MAIN_TARGET)
+	rm -f *.o $(TARGET)
 
-# Run the main program
-run: $(MAIN_TARGET)
-	./$(MAIN_TARGET)
+run: $(TARGET)
+	./$(TARGET)
 
 .PHONY: all clean run
